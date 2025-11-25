@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>INTMAX Builder Monitor</title>
+<style>
+body { font-family: Arial; padding: 20px; background: #111; color: #eee; }
+.server-box { padding: 12px; margin: 8px 0; background: #222; border-radius: 8px; }
+.status-ok { color: #00ff88; font-weight: bold; }
+.status-ng { color: #ff4444; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h2>INTMAX Block Builder Monitor</h2>
+<p>10秒おきに自動更新します…</p>
+
+<div id="status-area"></div>
+
+<script>
+const servers = {
+    "Server1": "https://proxy.builder.intmax.io/f7a0ae76-a793-44d7-87a1-fb131ec62863",
+    "Server2": "https://proxy.builder.intmax.io/ae3fe3b7-4c6a-4c21-be5a-22631bee4650",
+    "Server3": "https://proxy.builder.intmax.io/40722dbc-cf79-444a-b280-f870baf88ebf",
+    "Server4": "https://proxy.builder.intmax.io/799d8403-af11-40d0-a7ae-40d0fad0333e",
+    "Server5": "https://proxy.builder.intmax.io/a7af75bc-1697-4d2a-8e2e-ed86ca807659",
+    "Server6": "https://proxy.builder.intmax.io/1099a9b4-8745-4f48-befe-eeca93b5da33",
+    "Server7": "https://proxy.builder.intmax.io/b007ee19-6a4f-4de4-af88-74d3caf2f584",
+    "Server8": "https://proxy.builder.intmax.io/1ea6b164-236e-4b09-91ec-5883a0d9761e",
+    "Server9": "https://proxy.builder.intmax.io/846d119b-b3b9-4a0d-8ad8-f997f7d6db82",
+    "Server10": "https://proxy.builder.intmax.io/ada7fae5-c5a8-4852-9f40-3e288bdf1434"
+};
+
+async function checkServer(name, url) {
+    let healthUrl = url + "/health-check";
+    let feeUrl = url + "/fee-info";
+
+    let healthStatus = "NG";
+    let feeStatus = "NG";
+
+    try {
+        let h = await fetch(healthUrl);
+        healthStatus = h.status === 200 ? "OK" : "NG";
+    } catch (_) {}
+
+    try {
+        let f = await fetch(feeUrl);
+        feeStatus = f.status === 200 ? "OK" : "NG";
+    } catch (_) {}
+
+    return { name, healthStatus, feeStatus };
+}
+
+async function update() {
+    const results = await Promise.all(
+        Object.entries(servers).map(([name, url]) => checkServer(name, url))
+    );
+
+    const area = document.getElementById("status-area");
+    area.innerHTML = "";
+
+    results.forEach(r => {
+        area.innerHTML += `
+            <div class="server-box">
+                <b>${r.name}</b><br>
+                Health-check : <span class="${r.healthStatus === "OK" ? "status-ok" : "status-ng"}">${r.healthStatus}</span><br>
+                Fee-info : <span class="${r.feeStatus === "OK" ? "status-ok" : "status-ng"}">${r.feeStatus}</span>
+            </div>
+        `;
+    });
+}
+
+setInterval(update, 10000);
+update();
+</script>
+
+</body>
+</html>
