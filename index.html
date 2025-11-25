@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>INTMAX Builder Monitor</title>
+<title>INTMAX Builder Monitor (Optimized)</title>
 <style>
 body { font-family: Arial; padding: 20px; background: #111; color: #eee; }
 .server-box { padding: 12px; margin: 8px 0; background: #222; border-radius: 8px; }
@@ -12,12 +12,13 @@ body { font-family: Arial; padding: 20px; background: #111; color: #eee; }
 </head>
 <body>
 
-<h2>INTMAX Block Builder Monitor</h2>
-<p>10秒おきに自動更新します…</p>
+<h2>INTMAX Block Builder Monitor (Optimized)</h2>
+<p>15〜30分間隔の軽量監視に変更済み</p>
 
 <div id="status-area"></div>
 
 <script>
+// ==== あなたのサーバーUUID一覧 ====
 const servers = {
     "Server1": "https://proxy.builder.intmax.io/f7a0ae76-a793-44d7-87a1-fb131ec62863",
     "Server2": "https://proxy.builder.intmax.io/ae3fe3b7-4c6a-4c21-be5a-22631bee4650",
@@ -31,47 +32,64 @@ const servers = {
     "Server10": "https://proxy.builder.intmax.io/44bb054e-397b-4a52-9722-eb6a796130d3"
 };
 
-async function checkServer(name, url) {
-    let healthUrl = url + "/health-check";
-    let feeUrl = url + "/fee-info";
+// ==== 各サーバーのステータス ====
+let serverStatus = {};
+Object.keys(servers).forEach(name => {
+    serverStatus[name] = { health: "待機中", fee: "待機中" };
+});
 
-    let healthStatus = "NG";
-    let feeStatus = "NG";
-
-    try {
-        let h = await fetch(healthUrl);
-        healthStatus = h.status === 200 ? "OK" : "NG";
-    } catch (_) {}
-
-    try {
-        let f = await fetch(feeUrl);
-        feeStatus = f.status === 200 ? "OK" : "NG";
-    } catch (_) {}
-
-    return { name, healthStatus, feeStatus };
-}
-
-async function update() {
-    const results = await Promise.all(
-        Object.entries(servers).map(([name, url]) => checkServer(name, url))
-    );
-
+// ==== 表示アップデート ====
+function render() {
     const area = document.getElementById("status-area");
     area.innerHTML = "";
-
-    results.forEach(r => {
+    Object.entries(serverStatus).forEach(([name, st]) => {
         area.innerHTML += `
             <div class="server-box">
-                <b>${r.name}</b><br>
-                Health-check : <span class="${r.healthStatus === "OK" ? "status-ok" : "status-ng"}">${r.healthStatus}</span><br>
-                Fee-info : <span class="${r.feeStatus === "OK" ? "status-ok" : "status-ng"}">${r.feeStatus}</span>
+                <b>${name}</b><br>
+                Health-check : <span class="${st.health === "OK" ? "status-ok" : "status-ng"}">${st.health}</span><br>
+                Fee-info : <span class="${st.fee === "OK" ? "status-ok" : "status-ng"}">${st.fee}</span>
             </div>
         `;
     });
 }
 
-setInterval(update, 10000);
-update();
+// ==== 15分に1回：health-check ====
+async function runHealthCheck() {
+    for (const [name, url] of Object.entries(servers)) {
+        try {
+            const res = await fetch(url + "/health-check", { cache: "no-store" });
+            serverStatus[name].health = res.status === 200 ? "OK" : "NG";
+        } catch (_) {
+            serverStatus[name].health = "NG";
+        }
+    }
+    render();
+}
+
+// ==== 30分に1回：fee-info ====
+async function runFeeCheck() {
+    for (const [name, url] of Object.entries(servers)) {
+        try {
+            const res = await fetch(url + "/fee-info", { cache: "no-store" });
+            serverStatus[name].fee = res.status === 200 ? "OK" : "NG";
+        } catch (_) {
+            serverStatus[name].fee = "NG";
+        }
+    }
+    render();
+}
+
+// ==== 初回実行 ====
+render();
+runHealthCheck();
+runFeeCheck();
+
+// ==== タイマー設定 ====
+// health-check：15分 (900,000ms)
+setInterval(runHealthCheck, 900000);
+
+// fee-info：30分 (1,800,000ms)
+setInterval(runFeeCheck, 1800000);
 </script>
 
 </body>
