@@ -1,5 +1,4 @@
-<!------
-  !DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -38,40 +37,45 @@ body {
 <script>
 // ==== サーバーUUID一覧 ====
 const servers = {
-  "Server1": "http://162.43.72.28:8080",
-    "Server2": "https://proxy.builder.intmax.io/1099a9b4-8745-4f48-befe-eeca93b5da33",
-    "Server3": "https://proxy.builder.intmax.io/b007ee19-6a4f-4de4-af88-74d3caf2f584",
-    "Server4": "https://proxy.builder.intmax.io/6ddf3d0f-9faf-4d88-bd23-ab3de0a9cebf",
-    "Server5": "https://proxy.builder.intmax.io/846d119b-b3b9-4a0d-8ad8-f997f7d6db82",
-    "Server6": "https://proxy.builder.intmax.io/f9a191e3-5e23-4930-ac09-5b0238a99272",
-    "Server7": "https://proxy.builder.intmax.io/d6831d7d-5e1e-4fde-bf58-7562b9e1a9c3",
-    "Server8": "https://proxy.builder.intmax.io/cc171032-e997-4827-80cf-df25b1bbb0d0",
-    "Server9": "https://proxy.builder.intmax.io/4f351c3d-0234-49f1-9d62-d4cf007bfd02",
-    "Server10": "https://proxy.builder.intmax.io/345832da-ae36-442c-b887-a063399acf31",
-    "Server11": "https://proxy.builder.intmax.io/76e93b69-564c-4e85-8800-a22548b029ad",
-    "Server12": "https://proxy.builder.intmax.io/6846800d-1d8c-4e8d-a087-12ac3208b097",
-    "Server13": "https://proxy.builder.intmax.io/650a55ce-7a91-4144-8080-115f4d3d7757",
+    "鍵５Server1-4GB": "https://proxy.builder.intmax.io/a7af75bc-1697-4d2a-8e2e-ed86ca807659",
+    "鍵６-4GB": "https://proxy.builder.intmax.io/1099a9b4-8745-4f48-befe-eeca93b5da33",
+    "鍵７-4GB": "https://proxy.builder.intmax.io/b007ee19-6a4f-4de4-af88-74d3caf2f584",
+    "鍵８Server4-4GB": "https://proxy.builder.intmax.io/6ddf3d0f-9faf-4d88-bd23-ab3de0a9cebf",
+    "鍵９Server5-4GB": "https://proxy.builder.intmax.io/846d119b-b3b9-4a0d-8ad8-f997f7d6db82",
+    "鍵１０Server6-2GB": "https://proxy.builder.intmax.io/f9a191e3-5e23-4930-ac09-5b0238a99272",
+    "鍵１２-2GB": "https://proxy.builder.intmax.io/d6831d7d-5e1e-4fde-bf58-7562b9e1a9c3",
+    "鍵１３-2GB": "https://proxy.builder.intmax.io/cc171032-e997-4827-80cf-df25b1bbb0d0",
+    "鍵１４Server9-2GB": "https://proxy.builder.intmax.io/4f351c3d-0234-49f1-9d62-d4cf007bfd02",
+    "鍵15-2GB": "https://proxy.builder.intmax.io/345832da-ae36-442c-b887-a063399acf31",
+    "鍵16-intmax11-2GB": "https://proxy.builder.intmax.io/76e93b69-564c-4e85-8800-a22548b029ad",
+    "鍵17-intmax12-2GB": "https://proxy.builder.intmax.io/6846800d-1d8c-4e8d-a087-12ac3208b097",
+    "鍵18-intmax13-2GB": "https://proxy.builder.intmax.io/650a55ce-7a91-4144-8080-115f4d3d7757",
     "Server14": "https://proxy.builder.intmax.io/b54be6c0-2b39-45c3-8e1c-94addfebfdc3",
     "Server15": "https://proxy.builder.intmax.io/1f7a2dfa-9b89-4d44-a47c-147c99188ae1",
-    "Server16": "https://proxy.builder.intmax.io/58ecc289-3ff8-49e1-a209-c4b6eb177585",
+    "鍵21-intmax16-2GB": "https://proxy.builder.intmax.io/58ecc289-3ff8-49e1-a209-c4b6eb177585",
     "Server17": "https://proxy.builder.intmax.io/eccd86c9-48f5-4c4c-abaf-d7d42251a434",
     "Server18": "https://proxy.builder.intmax.io/e5d43097-99dc-4a10-a33b-06c995550515",
-    "Server19": "https://proxy.builder.intmax.io/7b8caf44-8cb0-4457-a9bb-8756e2236a44",
+    "鍵24-intmax19-2GB": "https://proxy.builder.intmax.io/7b8caf44-8cb0-4457-a9bb-8756e2236a44",
     "Server20": "https://proxy.builder.intmax.io/d65e5e8b-2899-4e37-b2ef-4549a9fda787",
     "Server21": "https://proxy.builder.intmax.io/5297a7c5-3f22-4bd3-8a3f-9f3220882e5d",
     "Server22": "https://proxy.builder.intmax.io/e2ff73d7-eef2-40da-8ff9-86311d87ddb7",
-    "Server23": "https://proxy.builder.intmax.io/511e1e70-28f9-433d-ba7f-4e008fe2b642",
-    "Server24": "https://proxy.builder.intmax.io/cb3104b7-ee26-4ea2-8409-52caa065f415",
-    "Server25": "https://proxy.builder.intmax.io/3830394d-17a0-4d39-8839-6e315b1bbd4d",
-    "Server26": "https://proxy.builder.intmax.io/96e43ee4-a0d9-4122-a894-eceb6d478599",
-    "Server27": "https://proxy.builder.intmax.io/a2170d64-6ba0-4f6c-9a0e-c322ab73564b",
-    "Server28": "https://proxy.builder.intmax.io/23200be7-5f5d-46e3-a16d-bbc1f1abe1e0",
-    "Server29": "https://proxy.builder.intmax.io/08dd0e55-bf4b-46cb-8870-39d1870663ed",
-    "Server30": "https://proxy.builder.intmax.io/b94442fc-c0e6-4398-9c8c-28938e4dec73",
-    "Server31": "https://proxy.builder.intmax.io/c3aeaaee-e0eb-4978-861b-4d297630c9c5",
-    "Server32": "https://proxy.builder.intmax.io/de3b79af-e2d7-4d1a-a010-c633b414a37b",
-    "Server33": "https://proxy.builder.intmax.io/caff068b-c8e6-4771-9fab-fbb8fa4618bc",
-    "Server34-infra-free-test": "https://proxy.builder.intmax.io/c744f350-4d3a-418f-840f-524c43de4004"
+    "鍵28-intmax23-2GB": "https://proxy.builder.intmax.io/511e1e70-28f9-433d-ba7f-4e008fe2b642",
+    "Server25": "https://proxy.builder.intmax.io/cb3104b7-ee26-4ea2-8409-52caa065f415",
+    "Server26": "https://proxy.builder.intmax.io/3830394d-17a0-4d39-8839-6e315b1bbd4d",
+    "Server27": "https://proxy.builder.intmax.io/96e43ee4-a0d9-4122-a894-eceb6d478599",
+    "Server28": "https://proxy.builder.intmax.io/a2170d64-6ba0-4f6c-9a0e-c322ab73564b",
+    "Server29-2GB": "https://proxy.builder.intmax.io/08dd0e55-bf4b-46cb-8870-39d1870663ed",
+    "Server30-2GB": "https://proxy.builder.intmax.io/b94442fc-c0e6-4398-9c8c-28938e4dec73",
+    "鍵42-元conoha31": "https://proxy.builder.intmax.io/4f9bb4a4-0e55-42c4-acdd-afbd687e3d6d",
+    "鍵43-元conoha32": "https://proxy.builder.intmax.io/a70e1d97-40b5-4af4-a1f6-a0ad362800e0",
+    "鍵44-元konoha33": "https://proxy.builder.intmax.io/7b58ebb7-3772-4504-8d36-b7d53e19f691",
+    "kagoya41-1GB-conoha34": "https://proxy.builder.intmax.io/71c3135f-704e-4c19-b392-6bece7587b94",
+    "kagoya36-1GB": "https://proxy.builder.intmax.io/58929853-de69-43a7-a2f6-55304f86646d",
+    "kagoya37-1GB": "https://proxy.builder.intmax.io/cb08d80c-5d12-4308-abbe-f10b898679cc",
+    "kagoya38-1GB": "https://proxy.builder.intmax.io/b3d8415a-1556-42c2-a7d0-b52a24436f53",
+    "kagoya39-1GB": "https://proxy.builder.intmax.io/29f9f6c6-bfea-44c6-9710-855633da6a1e",
+    "kagoya40-1GB": "https://proxy.builder.intmax.io/6466301d-aa51-4c67-a054-b9370e976abf"
+    
 };
 
 // ==== ステータス初期化 ====
@@ -162,7 +166,4 @@ setInterval(runFeeCheck, 1800000);
 </script>
 
 </body>
-</html
-  --------------->
-
-
+</html>
